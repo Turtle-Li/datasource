@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lijy.datasource.dao.UserMapper">
+    <select id="getUserList" resultType="com.lijy.datasource.entity.User">
+        select * from user
+    </select>
+
+    <insert id="insertBatch">
+        INSERT INTO user
+        (id, name, age,scale)
+        VALUES
+        <foreach collection ="users" item="user" separator =",">
+            (#{user.id}, #{user.name}, #{user.age},#{user.scale})
+        </foreach >
+        ON DUPLICATE KEY UPDATE
+        name = VALUES(name),
+        age = VALUES(age),
+        scale = VALUES(scale)
+    </insert>
+</mapper>
