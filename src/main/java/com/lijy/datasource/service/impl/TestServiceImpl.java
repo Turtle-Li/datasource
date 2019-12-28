@@ -26,7 +26,7 @@ public class TestServiceImpl extends ServiceImpl<UserMapper,User> implements Tes
 
     @Override
     public List<User> getUserList(){
-        return userMapper.getUserList();
+        return userMapper.selectList(null);
     }
 
     @Override

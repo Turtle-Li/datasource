@@ -1,5 +1,6 @@
 package com.lijy.datasource.controller;
 
+import com.lijy.datasource.config.aop.PrintRecord;
 import com.lijy.datasource.config.aop.TargetDataSource;
 import com.lijy.datasource.entity.User;
 import com.lijy.datasource.enums.DataSourceKey;
@@ -25,13 +26,12 @@ public class TestController {
     private TestService testService;
 
     @GetMapping("list")
-    @TargetDataSource(DataSourceKey.SLAVE)
     public List<User> getUserList(){
         return testService.getUserList();
     }
 
     @GetMapping("save")
-    @TargetDataSource(DataSourceKey.SLAVE)
+    @PrintRecord
     public void save(){
         List<User> users = new ArrayList<>();
         for(int i=50;i<100;i++){

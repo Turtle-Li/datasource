@@ -40,12 +40,5 @@ spring:
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
       # 合并多个DruidDataSource的监控数据
       useGlobalDataSourceStat: true
-#mybatis:
-#  mapper-locations: classpath:mapper/*.xml
-#  configuration:
-#    map-underscore-to-camel-case: true
-#mybatis-plus:
-#  mapper-locations:
-#mybatis:
-#  # 配置mapper的扫描，找到所有的mapper.xml映射文件
-#  mapperLocations: classpath:mapper/*.xml
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml

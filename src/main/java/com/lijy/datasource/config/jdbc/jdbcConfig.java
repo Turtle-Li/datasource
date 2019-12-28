@@ -4,9 +4,12 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+import com.baomidou.mybatisplus.core.MybatisConfiguration;
+import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.lijy.datasource.enums.DataSourceKey;
 import lombok.val;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -21,6 +24,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.naming.spi.Resolver;
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,18 +70,20 @@ public class jdbcConfig {
 
     @Bean
 // @ConfigurationProperties(prefix = "mybatis")
-    public SqlSessionFactoryBean sqlSessionFactoryBean(){
-        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+    public MybatisSqlSessionFactoryBean sqlSessionFactoryBean() throws IOException {
+        //使用MybatisSqlSessionFactoryBean  不然无法使用mybatis-plus baseMapper的默认方法
+//        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+        MybatisSqlSessionFactoryBean mybatisSqlSessionFactoryBean = new MybatisSqlSessionFactoryBean();
 
-        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
+        MybatisConfiguration configuration = new MybatisConfiguration();
         configuration.setMapUnderscoreToCamelCase(true); //下划线转骆驼
 
-        sqlSessionFactoryBean.setDataSource(dynamicDataSource());
+        mybatisSqlSessionFactoryBean.setDataSource(dynamicDataSource());
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        sqlSessionFactoryBean.setMapperLocations(resolver.getResource("classpath:mapper/*.xml"));
-        sqlSessionFactoryBean.setConfiguration(configuration);
+        mybatisSqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath:mapper/*.xml"));
+        mybatisSqlSessionFactoryBean.setConfiguration(configuration);
 
-        return sqlSessionFactoryBean;
+        return mybatisSqlSessionFactoryBean;
     }
 
     /**
