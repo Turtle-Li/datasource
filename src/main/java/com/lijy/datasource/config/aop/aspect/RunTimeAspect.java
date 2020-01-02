@@ -2,10 +2,7 @@ package com.lijy.datasource.config.aop.aspect;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
 /**
@@ -24,8 +21,9 @@ public class RunTimeAspect {
     @Around("runTimeAspect()")
     public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
         long time = System.currentTimeMillis();
-        joinPoint.proceed();
-        return System.currentTimeMillis()-time;
+        Object proceed = joinPoint.proceed();
+        log.info("方法耗时：{}ms",System.currentTimeMillis()-time);
+        return proceed;
     }
 
 

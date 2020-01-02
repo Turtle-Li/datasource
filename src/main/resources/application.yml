@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8088
 spring:
   datasource:
     druid:
@@ -40,5 +40,11 @@ spring:
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
       # 合并多个DruidDataSource的监控数据
       useGlobalDataSourceStat: true
+  application:
+    name: datasource
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8999/eureka/

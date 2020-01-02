@@ -1,12 +1,15 @@
 package com.lijy.datasource.controller;
 
 import com.lijy.datasource.config.aop.PrintRecord;
+import com.lijy.datasource.config.aop.RunTime;
 import com.lijy.datasource.config.aop.TargetDataSource;
 import com.lijy.datasource.entity.User;
 import com.lijy.datasource.enums.DataSourceKey;
 import com.lijy.datasource.service.TestService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,8 +29,13 @@ public class TestController {
     private TestService testService;
 
     @GetMapping("list")
-    public List<User> getUserList(){
+    public List<User> getUserList(long s) throws InterruptedException {
+        Thread.sleep(s);
         return testService.getUserList();
+    }
+
+    public List<User> getMsgFallback(long s){
+        return new ArrayList<User>();
     }
 
     @GetMapping("save")
