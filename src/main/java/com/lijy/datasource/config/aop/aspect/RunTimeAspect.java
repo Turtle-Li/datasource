@@ -27,8 +27,9 @@ public class RunTimeAspect {
     }
 
 
-    @AfterReturning(pointcut = "runTimeAspect()",returning = "ret")
-    public void doAfterReturning(Object ret){
-        log.info("方法耗时："+ret+"ms");
+
+    @After("runTimeAspect()")
+    public void doAfter(){
+        log.info("111111111111111111111111111111111");
     }
 }
